@@ -78,8 +78,29 @@ def searchLevel():
     return jsonify(response)
     
     #엑셀로 카카오톡 기본 UI 구현 @ 2021.02.06.
-    try:
-        response = excel_db.get_response(content, user_row)
+    #콘텐츠 추천부분 추가 @ 2021.02.07.
+    try :
+        # 콘텐츠 추천
+        if content == u"콘텐츠소개":
+            if user_row[3].value is not None:
+                level = user_row[3].value
+                response = excel_db.get_lectures(level, user_row)
+            else :
+                response = {
+                    "message" : {
+                        "text":"학습 수준을 알려주세요."
+                    },
+                    "keyboard" : {
+                        "type": "buttons",
+                        "buttons":["초급", "중급","고급"]
+                    }
+                }
+        elif content in ["초급", "중급", "고급"]:
+            user_row[3].value = content
+            db.save(EXCEL_FILE_NAME)
+            response = excel_db.get_lectures(content, user_row)
+        else:
+            response = excel_db.get_lectures(content, user_row)
     except:
         response = {
             "message": {
@@ -150,7 +171,7 @@ def message():
                 },
                 "keyboard": {
                     "type": "buttons",
-                    "buttons": ["다샤소개", "콘텐츠표", "홈으로"]
+                    "buttons": ["HIS커뮤니티랩소개", "콘텐츠소개", "홈으로"]
                 }
             }
             return jsonify(response)
@@ -202,8 +223,29 @@ def message():
     '''
     
     #엑셀로 카카오톡 기본 UI 구현 @ 2021.02.06.
-    try:
-        response = excel_db.get_response(content, user_row)
+    #콘텐츠 추천부분 추가 @ 2021.02.07.
+    try :
+        # 콘텐츠 추천
+        if content == u"수업소개":
+            if user_row[3].value is not None:
+                level = user_row[3].value
+                response = excel_db.get_lectures(level, user_row)
+            else :
+                response = {
+                    "message" : {
+                        "text":"학습 수준을 알려주세요."
+                    },
+                    "keyboard" : {
+                        "type": "buttons",
+                        "buttons":["초급", "중급","고급"]
+                    }
+                }
+        elif content in ["초급", "중급", "고급"]:
+            user_row[3].value = content
+            db.save(EXCEL_FILE_NAME)
+            response = excel_db.get_lectures(content, user_row)
+        else:
+            response = excel_db.get_lectures(content, user_row)
     except:
         response = {
             "message": {

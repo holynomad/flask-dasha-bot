@@ -9,6 +9,7 @@ lecture_db = db['Lecture']
 
 # 엑셀에서 사용자의 '수준'에 해당되는 Lecture 정보를 가져온다
 def get_response(content, user_row):
+    
     user_state = user_row[1].value
     lectures = []
     
@@ -20,7 +21,7 @@ def get_response(content, user_row):
             
             response = {
                 "message" : {
-                    "text" : "{level} 강의 추천합니다.".format(level=content)
+                    "text" : "{level} 강의콘텐츠 추천합니다.".format(level=content)
                 },
                 "keyboard" : {
                     "type" : "buttons",

@@ -1,5 +1,5 @@
 import math, sys
-from exobrain_api import exobrainNLU
+from exobrain_api import exobrainNLU, get_date_from_sentence
 
 class Filter:
     
@@ -13,6 +13,7 @@ class Filter:
 
         # 엑소브레인 API - 형태소 분석 (morp)
         malist = exobrainNLU('morp', text)
+        
         for word in malist:
             for count in range(len(word['morp'])):
                 if not word['morp'][count]['type'] in ["JKS","JKC","JKG","JKO","JKB","JKV","JKQ","JX","JC","SF","SP","SS","SE","SO","SL","SH","SW","NF","NV","SN","NA"]:

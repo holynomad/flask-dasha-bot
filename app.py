@@ -10,6 +10,7 @@ EXCEL_FILE_NAME = 'database.xlsx'
 
 db = load_workbook(filename=EXCEL_FILE_NAME)
 user_db = db['User']
+lecture_db = db['Lecture']
 
 
 @app.route("/")
@@ -28,6 +29,8 @@ def listLevel():
 @app.route("/searchlevel", methods = ["get"])
 def searchLevel():
     
+    # 추후 content는 카카오톡 리턴값으로 치환예정 @ 2021.02.11.
+    content = ""
     usernm = request.args.get("username")
     
     print('searchLevel started... --> ' +usernm)
@@ -53,7 +56,7 @@ def searchLevel():
             
             response = {
                 "message": {
-                    "text": "{name}님, 처음 방문 감사합니다. 본인의 컨트리뷰션 영역과 관심사 영역을 입력해주시겠어요?".format(name=usernm)
+                    "text": "{name}님, 처음 방문 감사합니다. 본인의 직군/직종/직무를 입력해주시겠어요?".format(name=usernm)
                 },
                 "keyboard": {
                     "type": "text"
@@ -65,17 +68,37 @@ def searchLevel():
         user_row[1].value = 1
         user_row[2].value = usernm
         db.save(EXCEL_FILE_NAME)
+        
+    tags = request.args.get("hashtag")
+    
+    print("HR hashtag --> " + tags)
+    
+    # 엑셀로 강좌(콘텐츠목록) 관리 @ 2021.02.09.
+    for idx, row in enumerate(lecture_db.rows):
+        
+        print('[' + str(idx) + ' / ' + str(lecture_db.max_row) + '] ' + str(row[0].value) + ' , ' + str(row[1].value) + ' , ' + str(row[2].value) + str(row[3].value) + str(row[4].value))
+        
+        if idx != 0 and tags in row[0].value:
+            lecture_row = row
+            print('[1] lecture_row catched')
+            break    
+        else:
+            lecture_row = 0
+            continue
+        
+    # excel_db에서 가져온 강의(콘텐츠) 목록이 1건이상 있으면, response 생성
+    if lecture_row != 0:    
 
-    response = {
-        "message": {
-            "text" : "{name}님, 반갑습니다. 컨트리뷰션 영역은 {contr}, 관심사는 {curious} 입니다.".format(name=usernm, contr=user_row[3].value, curious=user_row[4].value)
-        },
-        "keyboard": {
-            "type": "buttons",
-            "buttons": ["HIS커뮤니티랩 소개", "콘텐츠표", "홈으로"]
+        response = {
+            "message": {
+                "text" : "{name}님, 또 오셨군요 ㅋㅋ \n www.youtube.com/embed/{video_link} 추천! \n 제목 : {title} \n 채널명 : {channelnm}".replace("\n", "\\r\\n").format(name=usernm, video_link=lecture_row[1].value, title=lecture_row[4].value, channelnm=lecture_row[3].value)
+            },
+            "keyboard": {
+                "type": "buttons",
+                "buttons": ["다샤소개", "콘텐츠표", "홈으로"]
+            }
         }
-    }
-    return jsonify(response)
+        return jsonify(response)
     
     #엑셀로 카카오톡 기본 UI 구현 @ 2021.02.06.
     #콘텐츠 추천부분 추가 @ 2021.02.07.
@@ -237,7 +260,7 @@ def message():
                     },
                     "keyboard" : {
                         "type": "buttons",
-                        "buttons":["초급", "중급","고급"]
+                        "buttons": ["초급", "중급", "고급"]
                     }
                 }
         elif content in ["초급", "중급", "고급"]:
@@ -249,7 +272,7 @@ def message():
     except:
         response = {
             "message": {
-                "text" : "다시 시도해 주세요."
+                "text": "다시 시도해 주세요."
             },
             "keyboard": {
                 "type": "buttons",

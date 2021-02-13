@@ -30,7 +30,7 @@ def get_response(content, user_row):
             }
     return response
 
-#엑셀로 카카오톡 기본 UI 적용
+#엑셀로 카카오톡 기본 UI 적용 @ 2021.02.13.
 def get_response(content, user_row):
     user_state = user_row[1].value
     

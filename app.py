@@ -15,7 +15,7 @@ lecture_db = db['Lecture']
 
 @app.route("/")
 def hello():
-    #return "Hello, HISmacgyver on goorm.io!"
+    #return "Hello, macgyver on goorm.io!"
     return render_template("hello.html")
 
 @app.route("/listlevel", methods=["get"])
@@ -95,7 +95,7 @@ def searchLevel():
             },
             "keyboard": {
                 "type": "buttons",
-                "buttons": ["다샤소개", "콘텐츠표", "홈으로"]
+                "buttons": ["커뮤니티소개", "콘텐츠표", "홈으로"]
             }
         }
         return jsonify(response)
@@ -175,7 +175,7 @@ def message():
             
             response = {
                 "message": {
-                    "text": "처음 방문하셨네요. 이름이 (직군이, 직종이, 직무가..) 어떻게 되세요?"
+                    "text": "처음 방문하셨네요. 이름이 (직군이, 직종이, 직무가, 그 외 관심사가..) 어떻게 되세요?"
                 },
                 "keyboard": {
                     "type": "text"
@@ -194,7 +194,7 @@ def message():
                 },
                 "keyboard": {
                     "type": "buttons",
-                    "buttons": ["HIS커뮤니티랩소개", "콘텐츠소개", "홈으로"]
+                    "buttons": ["커뮤니티소개", "콘텐츠소개", "홈으로"]
                 }
             }
             return jsonify(response)
@@ -208,13 +208,13 @@ def message():
             },
             "keyboard": {
                 "type": "buttons",
-                "buttons": ["다샤소개", "콘텐츠표","홈으로"]
+                "buttons": ["커뮤니티소개", "콘텐츠표","홈으로"]
             }
         }
-    elif content == u"다샤소개":
+    elif content == u"커뮤니티소개":
         response = {
             "message": {
-                "text": "다샤는 비즈니스 마이크로러닝 플랫폼 !"
+                "text": "HIS 유관 생태계 협업 플랫폼 !"
             },
             "keyboard": {
                 "type" : "buttons",
@@ -249,7 +249,7 @@ def message():
     #콘텐츠 추천부분 추가 @ 2021.02.07.
     try :
         # 콘텐츠 추천
-        if content == u"수업소개":
+        if content == u"콘텐츠소개":
             if user_row[3].value is not None:
                 level = user_row[3].value
                 response = excel_db.get_lectures(level, user_row)

@@ -14,6 +14,7 @@ chat-bot ui-based project for `DS` contents curation (mvp)
       - [플러그인에 스킬 적용하기](https://i.kakao.com/docs/skill-plugin#%EC%8A%A4%ED%82%AC-%ED%98%B8%EC%B6%9C%EA%B0%92)
       - [응답타입별 JSON포맷](https://i.kakao.com/docs/skill-response-format)
 
+  - [카카오톡 챗봇 만들기 (2021.6.)](카카오톡 챗봇 만들기 -2.챗봇 제작)
 -----
 
   

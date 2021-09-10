@@ -15,6 +15,7 @@ chat-bot ui-based project for `DS` contents curation (mvp)
       - [응답타입별 JSON포맷](https://i.kakao.com/docs/skill-response-format)
 
   - [카카오톡 챗봇 만들기 (2021.6.)](https://youtu.be/2QbXuV4QCfQ)
+  - 
 -----
 
   
